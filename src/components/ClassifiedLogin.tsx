@@ -100,7 +100,7 @@ export const ClassifiedLogin: React.FC<ClassifiedLoginProps> = ({ onSuccess }) =
         vec4 rez=vec4(0);const float ldst=8.;
         vec3 lpos=vec3(disp(time+ldst)*0.5,time+ldst);
         float t=1.5;float fogT=0.;
-        for(int i=0;i<100;i++){
+        for(int i=0;i<70;i++){
           if(rez.a>0.99)break;
           vec3 pos=ro+t*rd;vec2 mpv=map(pos);
           float den=clamp(mpv.x-0.3,0.,1.)*1.12;
@@ -153,7 +153,8 @@ export const ClassifiedLogin: React.FC<ClassifiedLoginProps> = ({ onSuccess }) =
       }
     `;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    // Clouds are soft, so render at reduced resolution; CSS scales the canvas to fullscreen.
+    const dpr = 0.6;
     renderer.setPixelRatio(dpr);
     renderer.setSize(window.innerWidth, window.innerHeight);
 
