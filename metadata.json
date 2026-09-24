@@ -1,0 +1,8 @@
+{
+  "name": "lvo-cloud Universal SSO & Database Hub",
+  "description": "Unified site and centralized database for lvo-cloud.cloud, connecting all GitHub pages under universal Single Sign-On and shared Firestore collections.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

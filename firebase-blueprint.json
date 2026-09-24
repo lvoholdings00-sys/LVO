@@ -1,0 +1,113 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with universal SSO authentication across lvo-cloud.cloud subdomains and granular service permissions",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "developer", "member", "suspended"] },
+        "permissions": {
+          "type": "object",
+          "properties": {
+            "dashboard": { "type": "boolean" },
+            "chat": { "type": "boolean" },
+            "status": { "type": "boolean" },
+            "support": { "type": "boolean" },
+            "doc": { "type": "boolean" }
+          }
+        },
+        "apiToken": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "lastLoginAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "CloudPage": {
+      "title": "CloudPage",
+      "description": "A GitHub repository integrated under lvo-cloud.cloud universal SSO domain with required permissions",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "githubRepo": { "type": "string" },
+        "githubBranch": { "type": "string" },
+        "subdomain": { "type": "string" },
+        "deploymentUrl": { "type": "string" },
+        "serviceKey": { "type": "string", "enum": ["dashboard", "chat", "status", "support", "doc"] },
+        "authScope": { "type": "string", "enum": ["public", "authenticated", "admin_only"] }
+      },
+      "required": ["title", "slug", "githubRepo", "serviceKey"]
+    },
+    "AccessRequest": {
+      "title": "AccessRequest",
+      "description": "User request for permission to access a restricted service",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "userName": { "type": "string" },
+        "serviceKey": { "type": "string" },
+        "serviceTitle": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "requestedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "serviceKey", "status"]
+    },
+    "SSOAuditLog": {
+      "title": "SSOAuditLog",
+      "description": "Cross-service universal authentication & session verification audit log",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "servicePage": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "servicePage", "action", "timestamp"]
+    },
+    "DatabaseEntry": {
+      "title": "DatabaseEntry",
+      "description": "Shared universal database entries from any connected page",
+      "type": "object",
+      "properties": {
+        "pageId": { "type": "string" },
+        "pageTitle": { "type": "string" },
+        "collection": { "type": "string" },
+        "authorUid": { "type": "string" },
+        "authorEmail": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["pageId", "collection", "authorUid"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles with universal SSO authentication across lvo-cloud.cloud subdomains and granular service permissions"
+    },
+    "/cloud_pages/{pageId}": {
+      "schema": "CloudPage",
+      "description": "A GitHub repository integrated under lvo-cloud.cloud universal SSO domain"
+    },
+    "/access_requests/{requestId}": {
+      "schema": "AccessRequest",
+      "description": "User requests for service permissions"
+    },
+    "/sso_logs/{logId}": {
+      "schema": "SSOAuditLog",
+      "description": "Cross-service universal authentication & session verification audit log"
+    },
+    "/database_entries/{entryId}": {
+      "schema": "DatabaseEntry",
+      "description": "Shared universal database entries from any connected page"
+    }
+  }
+}
